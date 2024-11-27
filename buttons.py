@@ -23,13 +23,18 @@ class UserStates(StatesGroup):
 
 @dp.message_handler(commands=['Start'])  # хэндлер обработки запускающей команды
 async def starter(message):
-    await message.answer('Выберите действие', replay_markup=kb)  # вывод клавиатуры
+    await message.answer('Выберите действие', reply_markup=kb)  # вывод клавиатуры
 
 
 @dp.message_handler(text=['Рассчитать'])  # хэндлер обработки запроса на расчёт калорий
 async def set_age(message):
     await message.answer('Введите свой возраст в полных годах')  # встречный запрос возраста
     await UserStates.age.set()  # ожидание ввода возраста и сохранение его значения в соответствующий атрибут
+
+
+@dp.message_handler(text=['Информация'])  # хэндлер обработки запроса на расчёт калорий
+async def set_age(message):
+    await message.answer('Ну что Вам рассказать про Сахалин... ')  # вывод инфо
 
 
 @dp.message_handler(state=UserStates.age)  # хэндлер обработки, реагирующий на изменение атрибута возраста
@@ -44,6 +49,11 @@ async def set_weight(message, state):
     await state.update_data(growth=message.text)  # сохранение роста в локальной БД машины состояний
     await message.answer('Введите свой вес в килограммах')  # запрос веса
     await UserStates.weight.set()  # ожидание ввода веса и сохранение его в атрибут
+
+
+@dp.message_handler()  # реагирование на любое сообщение
+async def any(message):
+    await message.answer('Введите команду /Start, чтобы начать общение.')
 
 
 @dp.message_handler(state=UserStates.weight)  # хэндлер обработки, реагирующий на изменение атрибута роста
