@@ -12,7 +12,7 @@ bot = Bot(token=api)  # переменная бота
 
 dp = Dispatcher(bot, storage=MemoryStorage())  # переменная диспетчера
 
-kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Рассчитать')], [KeyboardButton(text='Информация')]],
+kb = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Рассчитать'), KeyboardButton(text='Информация')]],
                          resize_keyboard=True)  # клавиатура с масштабируемыми кнопками
 
 in_kb = InlineKeyboardMarkup()  # инлайн клавиатура
@@ -42,7 +42,7 @@ async def main_menu(message):
 
 @dp.callback_query_handler(text='formulas')  # хэндлер обработки выбора формулы
 async def get_formulas(call):
-    await call.message.answer('Формула этого самого чувака')
+    await call.message.answer('10 * вес(кг) + 6,25 * рост(см) - 5 * возраст(г) + 5')
     await call.answer()
 
 
@@ -84,7 +84,7 @@ async def send_calories(message, state):
     Growth = int(data.get('growth'))
     Weight = int(data.get('weight'))
     norma = (10 * Weight) + (6.25 * Growth) - (5 * Age) + 5  # расчёт нормы калорий
-    await message.answer(f'Ваша норма потребления - {str(norma)} Ккал')  # вывод результата расчёта
+    await message.answer(f'Ваша норма калорий {str(norma)}')  # вывод результата расчёта
     await state.finish()
 
 
